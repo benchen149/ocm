@@ -1,6 +1,3 @@
-# ocm
-Open Cluster Management
-
 #### Open Cluster Management (OCM)
 ```
 wget -qO- https://github.com/open-cluster-management-io/clusteradm/releases/latest/download/clusteradm_linux_amd64.tar.gz | sudo tar -xvz -C /usr/local/bin/
