@@ -55,6 +55,20 @@ export beartoken="eyJhbG..."
 curl -L -X GET http://localhost:3000/api/clusters   -H "Authorization: Bearer $beartoken"   -H "Content-Type: application/json"
 
 ```
+#### 升級 Node.js 至 v18 或 v20
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+source ~/.nvm/nvm.sh
+nvm install --lts
+nvm use --lts
+node -v
+npm -v
+
+make dev
+npm install -g serve && serve dist
+
+make clean
+```
 
 #### others
 ```
