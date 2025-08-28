@@ -60,6 +60,7 @@ curl -L -X GET http://localhost:3000/api/clusters   -H "Authorization: Bearer $b
 ```
 kind get clusters
 kind delete cluster --name c1
+docker network inspect -f '{{range.IPAM.Config}}{{.Gateway}}{{end}}' kind
 ```
 
 #### References
