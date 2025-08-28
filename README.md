@@ -5,7 +5,7 @@ sudo chmod +x /usr/local/bin/clusteradm
 
 ```
 
-# Open Cluster Management (OCM) dashboard
+####  OCM dashboard
 ```
 helm --kube-context kind-hub install ocm-dashboard ./charts/ocm-dashboard \
   --namespace ocm-dashboard \
@@ -36,7 +36,7 @@ clusteradm accept --context kind-hub --clusters kind-cluster2 --wait
 
 ```
 
-####
+#### kind
 ```
 kubectl config use-context kind-hub
 ```
