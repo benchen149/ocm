@@ -1,19 +1,18 @@
-#### pretask
+#### Pretask
 ```
 [ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.26.0/kind-linux-amd64
 wget "https://github.com/istio/istio/releases/download/1.24.0/istio-1.24.0-linux-amd64.tar.gz" -O - | tar -xz
 wget -qO- https://github.com/open-cluster-management-io/clusteradm/releases/latest/download/clusteradm_linux_amd64.tar.gz | sudo tar -xvz -C /usr/local/bin/
 sudo chmod +x /usr/local/bin/clusteradm
 
+./scripts/local-up.sh
+./scripts/get-token.sh
+kubectl config use-context kind-hub
+kubectl apply -f metallb/
 istioctl install -y -f cluster1-1.24.0.yaml
 kubectl -n istio-system patch svc istio-ingressgateway   -p '{"spec": {"type": "LoadBalancer"}}'
-```
 
-#### kind
-```
-kubectl config use-context kind-hub
-kind get clusters
-kind delete cluster --name c1
+curl -v http://ocm-dashboard.app.dev.com/login
 ```
 
 #### Open Cluster Management (OCM)
@@ -31,7 +30,7 @@ clusteradm accept --context kind-hub --clusters kind-cluster2 --wait
 
 ```
 
-####  OCM dashboard
+#### OCM dashboard
 ```
 helm --kube-context kind-hub install ocm-dashboard ocm-dashboard \
   --namespace ocm-dashboard \
@@ -57,7 +56,13 @@ curl -L -X GET http://localhost:3000/api/clusters   -H "Authorization: Bearer $b
 
 ```
 
-#### references
+#### others
+```
+kind get clusters
+kind delete cluster --name c1
+```
+
+#### References
 ```
 Open Cluster Management (OCM)
 https://github.com/open-cluster-management-io/ocm.git
