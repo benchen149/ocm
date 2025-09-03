@@ -1,0 +1,35 @@
+apiVersion: networking.istio.io/v1
+kind: Gateway
+metadata:
+  name: infrachk-gateway
+  namespace: dex
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - dex.app.dev.com
+    port:
+      name: http
+      number: 80
+      protocol: HTTP
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: infrachk-vs
+  namespace: dex
+spec:
+  gateways:
+  - infrachk-gateway
+  hosts:
+  - dex.app.dev.com
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: dex.dex.svc.cluster.local
+        port:
+          number: 5556

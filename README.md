@@ -1,4 +1,4 @@
-📦 Prerequisites
+#### Prerequisites
 ```
 [ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.26.0/kind-linux-amd64
 wget "https://github.com/istio/istio/releases/download/1.24.0/istio-1.24.0-linux-amd64.tar.gz" -O - | tar -xz
@@ -15,7 +15,7 @@ kubectl -n istio-system patch svc istio-ingressgateway   -p '{"spec": {"type": "
 curl -v http://ocm-dashboard.app.dev.com/login
 ```
 
-🌐 Open Cluster Management (OCM)
+#### Open Cluster Management (OCM)
 ```
 kubectl get managedclusters
 kubectl describe managedcluster <cluster-name>
@@ -31,7 +31,7 @@ clusteradm accept --context kind-hub --clusters kind-cluster2 --wait
 
 ```
 
-📊 OCM Dashboard
+#### OCM Dashboard
 ```
 helm --kube-context kind-hub install ocm-dashboard ocm-dashboard \
   --namespace ocm-dashboard \
@@ -78,7 +78,35 @@ kind delete cluster --name c1
 docker network inspect -f '{{range.IPAM.Config}}{{.Gateway}}{{end}}' kind
 ```
 
-📚 References
+#### OIDC Test
+```
+git clone https://github.com/xuezhaojun/dashboard.git
+cd dashboard
+git checkout devin/1756708705-oidc-login-support
+
+make docker-build-local
+
+npm install -g pnpm (optional)
+pnpm install (optional)
+
+kind load docker-image dashboard-ui:latest   --name hub
+kind load docker-image dashboard-api:latest  --name hub
+
+helm repo add dex https://charts.dexidp.io
+helm repo update
+kubectl create namespace dex
+
+helm install dex dex/dex \
+  --namespace dex \
+  --values dex-values.yaml
+
+helm upgrade --install dex dex/dex \
+  --namespace dex \
+  --values dex-values.yaml
+
+```
+
+#### References
 ```
 Open Cluster Management (OCM)
 https://github.com/open-cluster-management-io/ocm.git
