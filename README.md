@@ -1,4 +1,4 @@
-#### Pretask
+📦 Prerequisites
 ```
 [ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.26.0/kind-linux-amd64
 wget "https://github.com/istio/istio/releases/download/1.24.0/istio-1.24.0-linux-amd64.tar.gz" -O - | tar -xz
@@ -15,10 +15,11 @@ kubectl -n istio-system patch svc istio-ingressgateway   -p '{"spec": {"type": "
 curl -v http://ocm-dashboard.app.dev.com/login
 ```
 
-#### Open Cluster Management (OCM)
+🌐 Open Cluster Management (OCM)
 ```
 kubectl get managedclusters
 kubectl describe managedcluster <cluster-name>
+
 clusteradm get clusters
 kubectl get pods -n open-cluster-management-agent
 kubectl get pods -n open-cluster-management
@@ -30,7 +31,7 @@ clusteradm accept --context kind-hub --clusters kind-cluster2 --wait
 
 ```
 
-#### OCM dashboard
+📊 OCM Dashboard
 ```
 helm --kube-context kind-hub install ocm-dashboard ocm-dashboard \
   --namespace ocm-dashboard \
@@ -55,7 +56,7 @@ export beartoken="eyJhbG..."
 curl -L -X GET http://localhost:3000/api/clusters   -H "Authorization: Bearer $beartoken"   -H "Content-Type: application/json"
 
 ```
-#### 升級 Node.js 至 v18 或 v20
+⚙️ Upgrade Node.js to v18 / v20
 ```
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 source ~/.nvm/nvm.sh
@@ -70,14 +71,14 @@ npm install -g serve && serve dist
 make clean
 ```
 
-#### others
+🛠️ Useful Commands
 ```
 kind get clusters
 kind delete cluster --name c1
 docker network inspect -f '{{range.IPAM.Config}}{{.Gateway}}{{end}}' kind
 ```
 
-#### References
+📚 References
 ```
 Open Cluster Management (OCM)
 https://github.com/open-cluster-management-io/ocm.git
@@ -95,3 +96,4 @@ quao.io/image , open-cluster-management / dashboard-api
 https://quay.io/repository/open-cluster-management/dashboard-api?tab=tags
 
 ```
+
