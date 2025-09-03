@@ -1,0 +1,21 @@
+config:
+  issuer: http://dex.dex.svc.cluster.local:5556
+  staticClients:
+    - id: example-app
+      redirectURIs:
+        - 'http://localhost:3000/auth/callback'
+      name: 'Example App'
+      secret: example-secret
+  storage:
+    type: kubernetes
+    config:
+      inCluster: true
+  web:
+    http: 0.0.0.0:5556
+  frontend:
+    issuer: 'Example Dex'
+  connectors:
+    - type: mockCallback
+      id: mock
+      name: Example
+
