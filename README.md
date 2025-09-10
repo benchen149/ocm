@@ -105,6 +105,42 @@ helm upgrade --install dex dex/dex \
   --values dex-values.yaml
 
 ```
+#### OCM Metrics
+```
+CPU usage of OCM components
+rate(container_cpu_usage_seconds_total{namespace=~"open-cluster-management.*"}[3m])
+
+Memory usage of OCM components
+container_memory_working_set_bytes{namespace=~"open-cluster-management.*"}
+
+API server request rate for OCM resources
+rate(apiserver_request_total{
+  resource=~"managedclusters|managedclusteraddons|managedclustersetbindings|managedclustersets|addonplacementscores|placementdecisions|placements|manifestworks|manifestworkreplicasets"
+}[1m])
+
+Enter the OCM cluster-manager pod and Test the metrics endpoint
+kubectl -n open-cluster-management exec -it cluster-manager-86b4db7564-dc97w -- sh
+curl localhost:8443/metrics
+
+Expose metrics service
+kubectl -n open-cluster-management apply -f service-cluster-manager-metrics.yml
+
+Grant metrics read access
+kubectl apply -f rbac-ocm-metrics-reader.yml
+
+Install addons/prometheus/grafana
+kubectl apply -f istio-system apply -f samples/addons/prometheus.yaml
+kubectl apply -f istio-system apply -f samples/addons/grafana.yaml
+cm-prometheus.yml (scrape_configs : ocm )
+
+Access prometheus/grafana UI
+kubectl -n istio-system port-forward svc/prometheus 9090:9090
+kubectl -n istio-system port-forward svc/grafana 3000 (admin/admin)
+
+Go to Grafana → Dashboards → Import, and upload (ocm-metrics/ocm-dashboard.json)
+
+```
+
 
 #### References
 ```
@@ -123,5 +159,7 @@ https://deepwiki.com/xuezhaojun/dashboard
 quao.io/image , open-cluster-management / dashboard-api
 https://quay.io/repository/open-cluster-management/dashboard-api?tab=tags
 
+Monitoring OCM using Prometheus-Operator
+https://open-cluster-management.io/docs/getting-started/administration/monitoring/
 ```
 
